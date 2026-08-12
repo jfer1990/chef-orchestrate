@@ -21,4 +21,5 @@ export const Users = pgTable('users',{
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').notNull().defaultNow(),
 }); 
+export type UserSchema = InferSelectModel<typeof Users>;
 

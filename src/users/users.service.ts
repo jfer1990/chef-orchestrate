@@ -3,13 +3,14 @@ import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import { eq } from 'drizzle-orm';
 
 import { DRIZZLE } from '../drizzle/drizzle.module';
-import { Users } from '../drizzle/schema';
+import { Users } from '../drizzle/users/schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import {type UserSchema} from '../drizzle/users/schema'
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject(DRIZZLE) private readonly db: NodePgDatabase) {}
+  constructor(@Inject(DRIZZLE) private readonly db: NodePgDatabase<UserSchema>) {}
 
   async create(createUserDto: CreateUserDto) {
     const [user] = await this.db.insert(Users).values(createUserDto).returning();
