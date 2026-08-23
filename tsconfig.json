@@ -14,8 +14,10 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "paths":{
-      "@*":["src/*"]
+    "paths": {
+      "@drizzle/*": ["src/drizzle/*"],
+      "@users/*": ["src/users/*"],
+      "@sessions/*":["src/sessions/*"],
     },
     "incremental": true,
     "skipLibCheck": true,

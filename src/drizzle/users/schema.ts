@@ -13,7 +13,7 @@ import {
 } from 'drizzle-orm/pg-core'; 
 import { InferSelectModel } from 'drizzle-orm';
 
-export const Users = pgTable('users',{
+export const users = pgTable('users',{
     id:serial('id').primaryKey(), 
     name: text('name').notNull(), 
     email: text('email').notNull().unique(),
@@ -21,5 +21,5 @@ export const Users = pgTable('users',{
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at').notNull().defaultNow(),
 }); 
-export type UserSchema = InferSelectModel<typeof Users>;
+export type UserSchema = InferSelectModel<typeof users>;
 

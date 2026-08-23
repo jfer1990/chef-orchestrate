@@ -1,4 +1,4 @@
 import { InferInsertModel } from 'drizzle-orm';
-import { Users } from '../../drizzle/users/schema';
+import { users } from '../../drizzle/users/schema';
 
-export type CreateUserDto = Omit<InferInsertModel<typeof Users>, 'id' | 'createdAt' | 'updatedAt'>;
+export type CreateUserDto = Omit<InferInsertModel<typeof users>, 'id' | 'createdAt' | 'updatedAt'>;

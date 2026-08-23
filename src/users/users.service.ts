@@ -5,16 +5,15 @@ import bcrypt from 'bcryptjs';
 
 
 import { DRIZZLE } from '../drizzle/drizzle.module';
-import { Users } from '../drizzle/users/schema';
+import { users } from '../drizzle/users/schema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import {type UserSchema} from '../drizzle/users/schema'; 
 import { User } from './entities/user.entity';
 
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject(DRIZZLE) private readonly db: NodePgDatabase<UserSchema>) {}
+  constructor(@Inject(DRIZZLE) private readonly db: NodePgDatabase) {}
 
   async create(createUserDto: CreateUserDto):Promise<User> {
       
@@ -22,8 +21,8 @@ export class UsersService {
         if(userExists){
           throw new ConflictException("This email is already registered in our system, try with another email to register a new account"); 
         }
-        const hashedPassword = await bcrypt.hash(createUserDto.password,10); 
-        const [user] = await this.db.insert(Users).values({
+        const hashedPassword = await bcrypt.hash(createUserDto.password,10);         
+        const [user] = await this.db.insert(users).values({
           ...createUserDto, 
           password:hashedPassword
         }).returning();
@@ -31,17 +30,17 @@ export class UsersService {
   }
 
   async findByEmail(email:string){
-    const [user] = await this.db.select().from(Users).where(eq(Users.email, email)).limit(1); 
+    const [user] = await this.db.select().from(users).where(eq(users.email, email)).limit(1); 
     if(!user) return null; 
     return user; 
   }
 
   async findAll() {
-    return this.db.select().from(Users);
+    return this.db.select().from(users);
   }
 
-  async findOne(id: number) {
-    const [user] = await this.db.select().from(Users).where(eq(Users.id, id)).limit(1);
+  async findOneById(id: number) {
+    const [user] = await this.db.select().from(users).where(eq(users.id, id)).limit(1);
 
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
@@ -52,9 +51,9 @@ export class UsersService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const [user] = await this.db
-      .update(Users)
+      .update(users)
       .set({ ...updateUserDto, updatedAt: new Date() })
-      .where(eq(Users.id, id))
+      .where(eq(users.id, id))
       .returning();
 
     if (!user) {
@@ -65,7 +64,7 @@ export class UsersService {
   }
 
   async remove(id: number) {
-    const [user] = await this.db.delete(Users).where(eq(Users.id, id)).returning();
+    const [user] = await this.db.delete(users).where(eq(users.id, id)).returning();
 
     if (!user) {
       throw new NotFoundException(`User #${id} not found`);
