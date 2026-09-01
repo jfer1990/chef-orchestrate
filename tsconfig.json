@@ -15,6 +15,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "paths": {
+      "@":["src/"],
       "@drizzle/*": ["src/drizzle/*"],
       "@users/*": ["src/users/*"],
       "@sessions/*":["src/sessions/*"],
