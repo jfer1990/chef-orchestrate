@@ -78,6 +78,12 @@
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
     },
+    "moduleNameMapper": {
+      "^@drizzle/(.*)$": "<rootDir>/drizzle/$1",
+      "^@users/(.*)$": "<rootDir>/users/$1",
+      "^@sessions/(.*)$": "<rootDir>/sessions/$1",
+      "^@/(.*)$": "<rootDir>/$1"
+    },
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
