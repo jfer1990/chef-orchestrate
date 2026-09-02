@@ -1,4 +1,5 @@
 import { 
+    index,
     pgTable,
     serial,
     text,
@@ -7,7 +8,7 @@ import {
     integer
  } from "drizzle-orm/pg-core";
  import { InferSelectModel  } from 'drizzle-orm'; 
- import { users } from "@drizzle/users/schema";
+ import { users } from "@drizzle/schematics/users/schema";
 
 export const session = pgTable('session',{
     id: serial('id').primaryKey(), 
@@ -16,8 +17,13 @@ export const session = pgTable('session',{
     deviceType:text('device_type'), 
     expiresAt:timestamp('expires_at'), 
     isActive:boolean('is_active'), 
-    createdAt:timestamp('created_at').notNull().defaultNow()
-})
+    createdAt:timestamp('created_at').notNull().defaultNow(),
+    },
+    (table) => ([
+    index("session_user_id_idx").on(table.userId),
+    index("session_user_active_idx").on(table.userId, table.isActive),
+    ])
+)
 
 export type SessionShape = InferSelectModel<typeof session>;
 

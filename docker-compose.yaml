@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:18.4
+    image: postgis/postgis:18-3.6
     container_name: postgres_db
     restart: always
     environment:
@@ -10,7 +10,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql   # <-- changed from /var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s

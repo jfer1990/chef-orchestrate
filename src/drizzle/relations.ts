@@ -1,7 +1,7 @@
 import { users } from "./users/schema";
-import { session } from "./session/schema";
+import { session } from "./schematics/session/schema";
 import { defineRelations } from "drizzle-orm";
-import { meal, mealIngredient } from "./meals/schema";
+import { meal, mealIngredient } from "./schematics/ingredientsMeals/schema";
 
 export const relations = defineRelations({ users, session, meal, mealIngredient }, (r) => ({
   users: {
@@ -14,13 +14,11 @@ export const relations = defineRelations({ users, session, meal, mealIngredient 
     }),
   },
    meal: {
-      // Ingredientes que componen a este alimento (si es una receta)
       ingredientes: r.many.mealIngredient({
         from: r.meal.id,
         to: r.mealIngredient.mealId,
         alias: "recipe",
       }),
-      // Recetas donde este alimento es usado como ingrediente de otro
       usadoComoIngredienteEn: r.many.mealIngredient({
         from: r.meal.id,
         to: r.mealIngredient.ingredientId,
@@ -28,13 +26,11 @@ export const relations = defineRelations({ users, session, meal, mealIngredient 
       }),
     },
     alimentoIngrediente: {
-      // La receta "padre" de esta línea
       alimento: r.one.meal({
         from: r.mealIngredient.mealId,
         to: r.meal.id,
         alias: "recipe",
       }),
-      // El alimento usado como ingrediente en esta línea
       ingrediente: r.one.meal({
         from: r.mealIngredient.ingredientId,
         to: r.meal.id,

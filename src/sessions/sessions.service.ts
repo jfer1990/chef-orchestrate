@@ -3,7 +3,7 @@ import { DRIZZLE } from "@drizzle/drizzle.module";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { CreateSessionType} from "@sessions/dto/create-session.dto";
 import SessionEntity from '@sessions/entities/sessions.entity'; 
-import { session } from "@drizzle/session/schema";
+import { session } from "@drizzle/schematics/session/schema";
 import Session from "@sessions/entities/sessions.entity"
 import { and, eq, gt } from "drizzle-orm";
 import { compare, hash } from "bcryptjs";

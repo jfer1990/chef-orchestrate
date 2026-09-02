@@ -1,4 +1,4 @@
-import { type SessionShape } from "@drizzle/session/schema";
+import { type SessionShape } from "@drizzle/schematics/session/schema";
 import { ApiProperty } from "@nestjs/swagger";
 
 

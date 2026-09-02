@@ -8,33 +8,22 @@ import {
   timestamp,
   integer,
   unique,
+  doublePrecision,
   check,
+  text,
+  uuid,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
+import { baseUnitEnum, currencyEnum } from "@drizzle/constants/enums";
 
-// ---------- ENUMS ----------
 
-export const baseUnitEnum = pgEnum("base_unit_enum", [
-  "g",       
-  "ml",      
-  "unidad",  // 
-]);
-
-export const currencyEnum = pgEnum("currency_enum", [
-  "MXN",
-  "USD",
-  "EUR",
-  "GTQ",
-  "COP",
-  "ARS",
-]);
 
 export const meal = pgTable("meal", {
   id: serial("id").primaryKey(),
   name: varchar("name", { length: 150 }).notNull(),
 
   baseUnit: baseUnitEnum("base_unit").notNull(),
-  cost: numeric("cost", { precision: 12, scale: 2 })
+  cost: numeric("cost", { precision: 8, scale: 2 })
     .notNull()
     .default("0"),
   currency: currencyEnum("currency").notNull().default("MXN"),
@@ -46,6 +35,7 @@ export const meal = pgTable("meal", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
+
 
 export const mealIngredient = pgTable(
   "meal_ingredient",
